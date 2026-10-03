@@ -1,0 +1,31 @@
+<Window x:Class="DynamicMiniPlayer.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ajustes de Dynamic Mini Player" Icon="pack://application:,,,/Assets/DynamicMiniPlayer.ico" Width="430" Height="285"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#FF202124" Foreground="#FFF7F7F7">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Dynamic Mini Player" FontSize="21" FontWeight="SemiBold" />
+        <TextBlock Grid.Row="1" Margin="0,5,0,18" Foreground="#FFB9BBC1"
+                   Text="Controla las sesiones multimedia de Windows sin cambiar de ventana." TextWrapping="Wrap" />
+        <StackPanel Grid.Row="2">
+            <CheckBox x:Name="PersistentCheckBox" Content="Mostrar automáticamente cuando haya contenido"
+                      IsChecked="{Binding IsPersistent, Mode=OneWay}" Click="PersistentCheckBox_Click" Margin="0,0,0,12" />
+            <CheckBox Content="Ejecutar al iniciar Windows" IsChecked="{Binding StartWithWindows, Mode=OneWay}"
+                      Click="StartupCheckBox_Click" />
+        </StackPanel>
+        <Border Grid.Row="3" Margin="0,20,0,14" Padding="12" Background="#18FFFFFF" CornerRadius="8">
+            <TextBlock Foreground="#FFB9BBC1" TextWrapping="Wrap"
+                       Text="Para anclar la app: haz clic derecho en su icono de la barra de tareas y elige “Anclar a la barra de tareas”. Windows requiere que esta acción la confirme el usuario." />
+        </Border>
+        <Button Grid.Row="4" HorizontalAlignment="Right" Width="92" Padding="10,6" Background="#FF6750D8"
+                Content="Cerrar" Click="CloseButton_Click" />
+    </Grid>
+</Window>

@@ -1,0 +1,27 @@
+# Build output
+bin/
+obj/
+artifacts/
+TestResults/
+*.binlog
+
+# Local SDK / package caches
+.dotnet-home/
+.nuget/
+
+# IDEs and editors
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+*.DotSettings.user
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store

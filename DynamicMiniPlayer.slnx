@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/DynamicMiniPlayer/DynamicMiniPlayer.csproj" />
+  <Project Path="tests/DynamicMiniPlayer.Tests/DynamicMiniPlayer.Tests.csproj" />
+</Solution>

@@ -1,0 +1,100 @@
+<Window x:Class="DynamicMiniPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dynamic Mini Player" Icon="pack://application:,,,/Assets/DynamicMiniPlayer.ico" Width="392" Height="124"
+        WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
+        Background="Transparent" Topmost="True" ShowInTaskbar="False"
+        PreviewKeyDown="Window_PreviewKeyDown">
+    <Border x:Name="RootBorder" CornerRadius="16" Background="#EE202124" BorderBrush="#35FFFFFF" BorderThickness="1">
+        <Border.RenderTransform>
+            <TranslateTransform x:Name="RootTranslate" />
+        </Border.RenderTransform>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="24" ShadowDepth="5" Opacity="0.45" Color="#FF000000" />
+        </Border.Effect>
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="88" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Width="88" Height="88" CornerRadius="11" Background="#FF34363B" ClipToBounds="True">
+                <Grid>
+                    <TextBlock Text="" FontFamily="Segoe Fluent Icons" FontSize="32"
+                               Foreground="#55FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Image Source="{Binding Artwork}" Stretch="UniformToFill" />
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="12,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="24" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="22" />
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <TextBlock Text="{Binding Title}" Foreground="{StaticResource TextPrimary}" FontWeight="SemiBold"
+                               FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,28,0" />
+                    <Button HorizontalAlignment="Right" Width="24" Height="24" ToolTip="Ocultar" Click="HideButton_Click">
+                        <TextBlock Text="" FontFamily="Segoe Fluent Icons" FontSize="10" />
+                    </Button>
+                </Grid>
+                <ComboBox Grid.Row="1" ItemsSource="{Binding Sources}" SelectedItem="{Binding SelectedSource}"
+                          DisplayMemberPath="DisplayName" Style="{StaticResource DarkComboBoxStyle}"
+                          FontSize="11" Height="21" VerticalContentAlignment="Center"
+                          ToolTip="Seleccionar fuente multimedia" />
+
+                <Grid Grid.Row="2" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="34" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding PositionText}" Foreground="{StaticResource TextSecondary}" FontSize="9" VerticalAlignment="Center" />
+                    <Slider Grid.Column="1" Minimum="0" Maximum="{Binding DurationSeconds}" Value="{Binding PositionSeconds}"
+                            IsEnabled="{Binding CanSeek}" Margin="4,0" Style="{StaticResource ThinSliderStyle}"
+                            AutomationProperties.Name="Progreso"
+                            PreviewMouseLeftButtonDown="ProgressSlider_MouseLeftButtonDown"
+                            PreviewMouseLeftButtonUp="ProgressSlider_MouseLeftButtonUp" />
+                    <TextBlock Grid.Column="2" Text="{Binding DurationText}" Foreground="{StaticResource TextSecondary}"
+                               FontSize="9" TextAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Width="36" Height="30" Command="{Binding SkipBackCommand}" ToolTip="Retroceder 10 s"
+                            AutomationProperties.Name="Retroceder 10 segundos" Margin="0,0,2,0">
+                        <Grid>
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="20" RenderTransformOrigin="0.5,0.5">
+                                <TextBlock.RenderTransform>
+                                    <ScaleTransform ScaleX="-1" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Text="10" FontSize="7.5" FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Button>
+                    <Button Width="36" Height="30" Command="{Binding PreviousCommand}" ToolTip="Anterior">
+                        <TextBlock Text="" FontFamily="Segoe Fluent Icons" FontSize="15" />
+                    </Button>
+                    <Button Style="{StaticResource AccentRoundButtonStyle}" Margin="4,0" Command="{Binding ToggleCommand}"
+                            ToolTip="{Binding PlayPauseLabel}" AutomationProperties.Name="{Binding PlayPauseLabel}">
+                        <TextBlock Text="{Binding PlayPauseGlyph}" FontFamily="Segoe Fluent Icons" FontSize="14" />
+                    </Button>
+                    <Button Width="36" Height="30" Command="{Binding NextCommand}" ToolTip="Siguiente">
+                        <TextBlock Text="" FontFamily="Segoe Fluent Icons" FontSize="15" />
+                    </Button>
+                    <Button Width="36" Height="30" Command="{Binding SkipForwardCommand}" ToolTip="Avanzar 10 s"
+                            AutomationProperties.Name="Avanzar 10 segundos" Margin="2,0,0,0">
+                        <Grid>
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons" FontSize="20" />
+                            <TextBlock Text="10" FontSize="7.5" FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
