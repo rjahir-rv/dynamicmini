@@ -63,6 +63,12 @@ Published output is written to `artifacts\publish\win-x64`.
 - For UI or Windows integration changes, manually launch the app on Windows 11 and verify the relevant media-session, tray, startup, window, and single-instance behavior.
 - Do not treat files under `bin/`, `obj/`, or `artifacts/` as source changes. Regenerate them with the appropriate build or publish command.
 
+## Branching
+
+- `main` holds stable releases; do not commit to it directly.
+- `develop` is the integration branch. Create feature branches from `develop` and merge them back into it.
+- Write documentation, code comments, and commit messages in English. User-facing UI text is currently in Spanish; keep it consistent unless a task targets localization.
+
 ## Change Scope
 
 - Make the smallest change that satisfies the request.

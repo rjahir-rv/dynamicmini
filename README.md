@@ -1,32 +1,34 @@
 # Dynamic Mini Player
 
-Mini reproductor universal para Windows 11. Lee la sesión multimedia que Windows recibe de Chrome, Edge, Firefox, Spotify y otras aplicaciones compatibles, y permite controlarla sin cambiar de ventana.
+A universal mini player for Windows 11. It reads the media session that Windows receives from Chrome, Edge, Firefox, Spotify, and other compatible apps, and lets you control playback without switching windows.
 
-## Funciones
+## Features
 
-- Tarjeta compacta sobre la barra de tareas que se abre bajo demanda desde la bandeja y se oculta al hacer clic fuera.
-- Modo persistente opcional para mostrarla automáticamente cuando empieza a sonar algo.
-- Portada, título, artista y barra de progreso con búsqueda por clic o arrastre.
-- Controles de anterior, reproducir/pausar, siguiente y retroceder/avanzar 10 segundos.
-- Selección automática de Windows y selector manual entre sesiones.
-- Icono y menú en la bandeja del sistema.
-- Autoarranque opcional, preferencias locales e instancia única.
-- Sin cuentas, telemetría ni conexiones propias a Internet.
+- Compact card above the taskbar that opens on demand from the system tray and hides when you click outside it.
+- Optional persistent mode that shows the card automatically when something starts playing.
+- Artwork, title, artist, and a progress bar that supports click and drag seeking.
+- Previous, play/pause, next, and skip back/forward 10 seconds controls.
+- Automatic session selection by Windows, plus a manual picker for switching between sessions.
+- System tray icon and menu.
+- Optional launch at startup, local preferences, and single-instance behavior.
+- No accounts, no telemetry, and no app-owned Internet connections.
 
-## Uso
+## Usage
 
-- **Clic izquierdo** en el icono de la bandeja: mostrar u ocultar el reproductor.
-- **Clic derecho** en el icono de la bandeja: modo, fuente multimedia, inicio con Windows, ajustes y salir.
+- **Left-click** the tray icon to show or hide the player.
+- **Right-click** the tray icon for display mode, media source, launch at startup, settings, and exit.
 
-| Atajo | Acción |
+| Shortcut | Action |
 | --- | --- |
-| `Espacio` | Reproducir / pausar |
-| `←` / `→` | Retroceder / avanzar 10 s |
-| `Esc` | Ocultar el reproductor |
+| `Space` | Play / pause |
+| `←` / `→` | Skip back / forward 10 s |
+| `Esc` | Hide the player |
 
-## Desarrollo
+> The app's user interface is currently in Spanish.
 
-Requisitos: Windows 11 x64 y [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
+## Development
+
+Requirements: Windows 11 x64 and the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ```powershell
 dotnet restore DynamicMiniPlayer.slnx
@@ -35,24 +37,29 @@ dotnet test DynamicMiniPlayer.slnx
 dotnet run --project src/DynamicMiniPlayer/DynamicMiniPlayer.csproj
 ```
 
-Estructura del repositorio:
+Repository layout:
 
-- `src/DynamicMiniPlayer/`: aplicación WPF (`ViewModels`, `Services`, `Models`, `Assets`).
-- `tests/DynamicMiniPlayer.Tests/`: pruebas unitarias con MSTest.
-- `scripts/`: utilidades de compilación y publicación.
+- `src/DynamicMiniPlayer/` — WPF application (`ViewModels`, `Services`, `Models`, `Assets`).
+- `tests/DynamicMiniPlayer.Tests/` — MSTest unit tests.
+- `scripts/` — build and publishing helpers.
 
-Para generar una compilación autocontenida:
+To create a self-contained build:
 
 ```powershell
 .\scripts\publish.ps1
 ```
 
-El ejecutable quedará en `artifacts\publish\win-x64`. Para anclarlo, ejecútalo y usa **clic derecho → Anclar a la barra de tareas** sobre su icono. Windows no permite que una app realice ese anclaje permanentemente sin confirmación del usuario.
+The executable is written to `artifacts\publish\win-x64`. To pin it, run it and use **right-click → Pin to taskbar** on its icon. Windows does not allow an app to pin itself permanently without user confirmation.
 
-## Notas de compatibilidad
+## Branches
 
-La información y los controles disponibles dependen de lo que publique cada fuente en los controles multimedia de Windows. Si una página no permite avanzar, retroceder o buscar una posición, la interfaz deshabilita ese control. La aplicación no necesita extensiones de navegador.
+- `main` — stable releases.
+- `develop` — ongoing development; open pull requests against this branch.
 
-## Licencia
+## Compatibility notes
 
-Distribuido bajo la licencia MIT. Consulta [LICENSE](LICENSE).
+The information and controls available depend on what each source publishes to the Windows media controls. If a page does not allow skipping, going back, or seeking, the corresponding control is disabled. No browser extensions are required.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE).
