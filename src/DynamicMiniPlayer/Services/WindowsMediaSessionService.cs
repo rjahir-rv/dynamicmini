@@ -12,6 +12,7 @@ public sealed class WindowsMediaSessionService : IMediaSessionService
     private GlobalSystemMediaTransportControlsSession? _activeSession;
     private string? _selectedSessionId;
     private List<SessionItem> _sessionItems = [];
+    private readonly CancellationTokenSource _pollCts = new();
     private bool _disposed;
 
     public event EventHandler<MediaSessionSnapshot?>? CurrentSessionChanged;
@@ -27,6 +28,31 @@ public sealed class WindowsMediaSessionService : IMediaSessionService
         _manager.CurrentSessionChanged += OnManagerChanged;
         _manager.SessionsChanged += OnSessionsChanged;
         await RefreshAsync(cancellationToken);
+        _ = PollPlaybackStatusAsync(_pollCts.Token);
+    }
+
+    // Right after launch Windows can report a stale status (e.g. Paused) for sessions that are
+    // already playing and may not raise PlaybackInfoChanged afterwards, so re-sync when it drifts.
+    private async Task PollPlaybackStatusAsync(CancellationToken cancellationToken)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        try
+        {
+            while (await timer.WaitForNextTickAsync(cancellationToken))
+            {
+                var session = _activeSession;
+                if (session is null || Current is null)
+                    continue;
+
+                PlayerPlaybackStatus status;
+                try { status = ConvertStatus(session.GetPlaybackInfo()?.PlaybackStatus); }
+                catch { continue; }
+
+                if (status != Current.Status)
+                    await SafeRefreshCurrentAsync();
+            }
+        }
+        catch (OperationCanceledException) { }
     }
 
     public async Task SelectSessionAsync(string? sessionId)
@@ -260,6 +286,7 @@ public sealed class WindowsMediaSessionService : IMediaSessionService
         if (_disposed)
             return ValueTask.CompletedTask;
         _disposed = true;
+        _pollCts.Cancel();
 
         AttachActiveSession(null);
         if (_manager is not null)
@@ -267,6 +294,7 @@ public sealed class WindowsMediaSessionService : IMediaSessionService
             _manager.CurrentSessionChanged -= OnManagerChanged;
             _manager.SessionsChanged -= OnSessionsChanged;
         }
+        _pollCts.Dispose();
         _refreshLock.Dispose();
         return ValueTask.CompletedTask;
     }
